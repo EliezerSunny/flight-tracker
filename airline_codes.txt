@@ -45,7 +45,7 @@ Qantas - Qantas
 United Airlines - United
 
 Airline Codes for Airlines Beginning with Specific Letters
-	TE - used by TEAL from 1940-1965, then Air 		New Zealand from 1965-1990
-	LM - gained by Air New Zealand after begin		ning independent operations (2017)
+	TE - used by TEAL from 1940-1965, then AirNew Zealand from 1965-1990
+	LM - gained by Air New Zealand after beginning independent operations (2017)
 
 Note: The list of airline codes and numbers is not exhaustive and is subject to change.
