@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+        .status {
+            font-weight: bold;
+            color: green;
+        }
+        .status.landed {
+            color: red;
+        }
+        .status.active {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight Tracker</h1>
+
+    <form action="/search" method="POST">
+        <label for="flight_number">Enter Flight Number:</label>
+        <input type="text" name="flight_number" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if flight_info %}
+        <h2>Flight Information</h2>
+        <p><strong>Flight Number:</strong> <i> {{ flight_info['flight_number'] }}</i></p> <!-- Display flight number -->
+        <p><strong>Departure City:</strong> {{ flight_info['departure']['airport'] }}</p>
+	<p><strong>Departure Time:</strong> {{ flight_info['departure']['estimated'] }}</p>
+	<hr>
+        <p><strong>Arrival City:</strong> {{ flight_info['arrival']['airport'] }}</p>
+        <p><strong>Arrival Time:</strong> {{ flight_info['arrival']['estimated'] }}</p>
+
+        <!-- Display Flight Status -->
+        <p><strong>Flight Status:</strong> 
+            <span class="status {% if flight_info['status'] == 'landed' %}landed{% elif flight_info['status'] == 'active' %}active{% else %}delayed{% endif %}">
+                {{ flight_info['status'] }}
+            </span>
+        </p>
+
+        <!-- Display Map -->
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script>
+            var map = L.map('map').setView([{{ flight_info['departure']['latitude'] }}, {{ flight_info['departure']['longitude'] }}], 3);
+
+            // Add tile layer to map (using OpenStreetMap tiles)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Markers for departure and arrival cities
+            L.marker([{{ flight_info['departure']['latitude'] }}, {{ flight_info['departure']['longitude'] }}]).addTo(map)
+                .bindPopup("<b>Departure</b><br>{{ flight_info['departure']['airport'] }}")
+                .openPopup();
+
+            L.marker([{{ flight_info['arrival']['latitude'] }}, {{ flight_info['arrival']['longitude'] }}]).addTo(map)
+                .bindPopup("<b>Arrival</b><br>{{ flight_info['arrival']['airport'] }}");
+        </script>
+    {% endif %}
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,51 @@
+Airline Codes and Numbers List
+
+Airline codes, also known as airline designators, are two-letter or three-letter codes assigned to airlines by the International Air Transport Association (IATA) or the International Civil Aviation Organization (ICAO). These codes are used to identify airlines and their flights.
+
+
+IATA Airline Codes
+
+AA - American Airlines
+AC - Air Canada
+AF - Air France
+BA - British Airways
+CA - Air China
+DL - Delta Air Lines
+EK - Emirates
+LH - Lufthansa
+QF - Qantas
+UA - United Airlines
+
+
+ICAO Airline Codes
+
+AAL - American Airlines
+ACA - Air Canada
+AFR - Air France
+BAW - British Airways
+CCA - Air China
+DAL - Delta Air Lines
+UAE - Emirates
+DLH - Lufthansa
+QFA - Qantas
+UAL - United Airlines 
+
+
+Airline Call Signs (Telephony Designators)
+
+American Airlines - American
+Air Canada - Maple
+Air France - Airfrans
+British Airways - Speedbird
+Air China - China Air
+Delta Air Lines - Delta
+Emirates - Emirates
+Lufthansa - Lufthansa
+Qantas - Qantas
+United Airlines - United
+
+Airline Codes for Airlines Beginning with Specific Letters
+	TE - used by TEAL from 1940-1965, then Air 		New Zealand from 1965-1990
+	LM - gained by Air New Zealand after begin		ning independent operations (2017)
+
+Note: The list of airline codes and numbers is not exhaustive and is subject to change.
