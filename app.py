@@ -3,9 +3,9 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = "e576090f0738d058311bf93504fc64bb"  # Replace with your actual API key
+API_KEY = "your_api_key"  # Replace with your actual API key
 BASE_URL = "http://api.aviationstack.com/v1/flights"
-OPENCAGE_API_KEY = "0694d99320c9465aafd7bf55730103f3"  # Replace with your OpenCage API key
+OPENCAGE_API_KEY = "your_api_key"  # Replace with your OpenCage API key
 
 # Function to get latitude and longitude for airport locations using OpenCage API
 def get_coordinates(city_name):
