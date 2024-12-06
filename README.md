@@ -1,184 +1,191 @@
+Flight Tracker API
 
-Flight Tracker Application
+Overview
 
-A Flask-based web application to track flight details, including status, departure, arrival information, and a map visualization of the route.
+The Flight Tracker API allows users to retrieve real-time flight information, including flight numbers, airlines, and departure/arrival airports. This API integrates with third-party services like AviationStack to provide accurate and up-to-date flight data.
+
+The application is designed to be lightweight, stateless, and easy to integrate into any web or mobile application that requires flight tracking.
 
 
 ---
 
 Features
 
-Search flights using their flight number.
+Retrieve live flight information (flight numbers, airlines, airports).
 
-Displays flight details such as departure, arrival cities, estimated times, and status (e.g., active, landed).
+Filter flights by departure and arrival locations.
 
-Visualizes flight routes on an interactive map using Leaflet.js.
+Support for multiple airlines and flight statuses.
+
+Error handling for invalid requests or failed external API calls.
+
+Simple, RESTful design for easy consumption.
 
 
 
 ---
+
+Technologies Used
+
+Flask - Web framework for building the API.
+
+AviationStack API - Third-party service for real-time flight data.
+
+Python - Programming language.
+
+Flask-Caching - To cache flight data and improve performance.
+
+Requests - To make HTTP requests to the AviationStack API.
+
+
+
+---
+
+Setup & Installation
 
 Prerequisites
 
-Before running this project, ensure you have the following:
+Before running the project, ensure you have the following:
 
-1. Python 3.7+
+Python 3.7+ installed.
 
-
-2. Flask - A lightweight web framework.
-
-
-3. API Keys:
-
-AviationStack API: For flight data (sign up here).
-
-OpenCage API: For geocoding airport locations (sign up here).
+A free API key from AviationStack.
 
 
+Installation Steps
 
-4. Basic understanding of running Python projects.
+1. Clone the repository:
+
+git clone https://github.com/EliezerSunny/flight-tracker.git
+cd flight-tracker-api
 
 
+2. Create a virtual environment:
+
+python3 -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 
----
+3. Install dependencies:
 
-Project Setup
-
-1. Clone the Repository
-
-git clone https://github.com/eliezersunny/flight-tracker.git
-cd flight-tracker
-
-2. Install Dependencies
-
-Create a virtual environment and install the required packages:
-
-# Create a virtual environment
-python -m venv venv
-
-# Activate the virtual environment
-# For Windows:
-venv\Scripts\activate
-# For macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
 pip install -r requirements.txt
 
-3. Configure API Keys
 
-Create a .env file in the root directory to store your API keys:
+4. Set up your AviationStack API key:
 
-API_KEY=your_aviationstack_api_key
-OPENCAGE_API_KEY=your_opencage_api_key
+Create a .env file in the root directory of the project.
 
-4. Run the Application
+Add your API key like this:
 
-Run the Flask application:
+AVIATIONSTACK_API_KEY=your_api_key_here
+
+
+
+5. Run the application:
 
 python app.py
 
-The app will be accessible at http://127.0.0.1:5000/.
-
-
----
-
-Project Structure
-
-flight-tracker/
-├── static/
-│   └── style.css  # Custom CSS for styling
-├── templates/
-│   └── index.html # HTML template for the application
-├── app.py          # Main Flask application
-├── requirements.txt # Python dependencies
-└── README.md       # Project documentation
-
-
----
-
-How to Use
-
-1. Navigate to the homepage at http://127.0.0.1:5000/.
-
-
-2. Enter a flight number (e.g., AA123, AC103 ...) in the search bar.
-
-
-3. Click "Search" to view:
-
-Departure city and estimated time.
-
-Arrival city and estimated time.
-
-
-Flight status (e.g. scheduled, active, landed).
-
-Interactive map showing the departure and arrival points.
-
+Your API will be available at http://localhost:5000.
 
 
 
 
 ---
 
-APIs Used
+API Endpoints
 
-1. AviationStack API
+1. Get all flights
 
-Provides flight information like status, departure, and arrival details.
+URL: /flights
 
-Example endpoint:
-http://api.aviationstack.com/v1/flights
+Method: GET
+
+Query Parameters:
+
+departure: (Optional) Filter by departure airport code (e.g., JFK).
+
+arrival: (Optional) Filter by arrival airport code (e.g., LAX).
 
 
-2. OpenCage API
+Response:
 
-Converts city names into geographical coordinates for map visualization.
+[
+  {
+    "flight_number": "AA123",
+    "airline": "American Airlines",
+    "departure": "JFK",
+    "arrival": "LAX",
+    "status": "On Time"
+  },
+  {
+    "flight_number": "DL456",
+    "airline": "Delta Airlines",
+    "departure": "ATL",
+    "arrival": "ORD",
+    "status": "Delayed"
+  }
+]
 
-Example endpoint:
-https://api.opencagedata.com/geocode/v1/json
+
+2. Get flight by number
+
+URL: /flights/{flight_number}
+
+Method: GET
+
+URL Parameters:
+
+flight_number: The flight number (e.g., AA123).
+
+
+Response:
+
+{
+  "flight_number": "AA123",
+  "airline": "American Airlines",
+  "departure": "JFK",
+  "arrival": "LAX",
+  "status": "On Time"
+}
 
 
 
 ---
 
-Troubleshooting
+Error Handling
 
-Common Errors and Fixes
+The API returns standard HTTP status codes to indicate success or failure:
 
-1. "API request failed":
+200 OK: Successfully processed the request.
 
-Ensure your API keys are correctly configured in the .env file.
+400 Bad Request: Invalid or missing parameters.
 
-Check your internet connection.
+404 Not Found: No flights found for the given criteria.
 
-
-
-2. "No flight data found":
-
-Verify that the entered flight number is valid and currently active.
+500 Internal Server Error: If there's an issue with the external API or server.
 
 
 
-3. Map not loading:
+---
 
-Ensure Leaflet.js is properly linked in the index.html file.
+Testing the API
 
+To test the API endpoints, you can use tools like Postman or cURL. For example, to get all flights:
 
-
+curl http://localhost:5000/flights?departure=JFK&arrival=LAX
 
 
 ---
 
 Future Improvements
 
-Add user authentication for personalized tracking.
+Add authentication: Implement token-based authentication to protect sensitive endpoints.
 
-Cache flight data to reduce API requests.
+Store flight data: Integrate a database to persist flight data and reduce dependency on external APIs.
 
-Add support for multi-language.
+Real-time updates: Implement a WebSocket-based solution for pushing real-time flight updates.
+
+Advanced filters: Allow filtering by more criteria (e.g., flight status, airline).
 
 
 
@@ -186,112 +193,12 @@ Add support for multi-language.
 
 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 
 ---
 
-Acknowledgements
+Contact
 
-AviationStack API for flight data.
-
-OpenCage API for geocoding.
-
-Leaflet.js for interactive maps.
-
-
-
----
-
-Author
-
-Developed by EliezerSunny. Feel free to reach out for suggestions or contributions!
-
-
-
-
-
-Airline Codes and Numbers List
-
-This document provides a reference for airline codes, also known as airline designators, assigned by the International Air Transport Association (IATA) or the International Civil Aviation Organization (ICAO). These codes are essential for identifying airlines and their flights.
-
-IATA Airline Codes
-
-AA - American Airlines
-
-AC - Air Canada
-
-AF - Air France
-
-BA - British Airways
-
-CA - Air China
-
-DL - Delta Air Lines
-
-EK - Emirates
-
-LH - Lufthansa
-
-QF - Qantas
-
-UA - United Airlines
-
-
-ICAO Airline Codes
-
-AAL - American Airlines
-
-ACA - Air Canada
-
-AFR - Air France
-
-BAW - British Airways
-
-CCA - Air China
-
-DAL - Delta Air Lines
-
-UAE - Emirates
-
-DLH - Lufthansa
-
-QFA - Qantas
-
-UAL - United Airlines
-
-
-Airline Call Signs (Telephony Designators)
-
-American Airlines - "American"
-
-Air Canada - "Maple"
-
-Air France - "Airfrans"
-
-British Airways - "Speedbird"
-
-Air China - "China Air"
-
-Delta Air Lines - "Delta"
-
-Emirates - "Emirates"
-
-Lufthansa - "Lufthansa"
-
-Qantas - "Qantas"
-
-United Airlines - "United"
-
-
-Airline Codes for Airlines Beginning with Specific Letters
-
-TE: Used by TEAL from 1940–1965, then Air New Zealand from 1965–1990
-
-LM: Gained by Air New Zealand after beginning independent operations in 2017
-
-
-> Note:
-The list of airline codes and numbers is not exhaustive and is subject to change.
-
+For any questions, feel free to reach out at @eliezersunny.
 
