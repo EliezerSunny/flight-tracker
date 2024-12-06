@@ -1,204 +1,113 @@
-Flight Tracker API
+Flight Tracker Application
 
-Overview
-
-The Flight Tracker API allows users to retrieve real-time flight information, including flight numbers, airlines, and departure/arrival airports. This API integrates with third-party services like AviationStack to provide accurate and up-to-date flight data.
-
-The application is designed to be lightweight, stateless, and easy to integrate into any web or mobile application that requires flight tracking.
-
-
----
+This is a simple Flask web application that allows users to track the status of a flight by providing a flight number. The app fetches flight data from the AviationStack API and displays key flight details, including departure and arrival cities, flight status, and coordinates of the airports. The application also uses the OpenCage API to get the latitude and longitude of the departure and arrival cities.
 
 Features
 
-Retrieve live flight information (flight numbers, airlines, airports).
+Flight tracking by IATA flight number.
 
-Filter flights by departure and arrival locations.
+Displays flight status (e.g., scheduled, delayed, landed).
 
-Support for multiple airlines and flight statuses.
+Retrieves the departure and arrival cities along with their coordinates.
 
-Error handling for invalid requests or failed external API calls.
+Simple, easy-to-use interface.
 
-Simple, RESTful design for easy consumption.
-
-
-
----
-
-Technologies Used
-
-Flask - Web framework for building the API.
-
-AviationStack API - Third-party service for real-time flight data.
-
-Python - Programming language.
-
-Flask-Caching - To cache flight data and improve performance.
-
-Requests - To make HTTP requests to the AviationStack API.
-
-
-
----
-
-Setup & Installation
 
 Prerequisites
 
-Before running the project, ensure you have the following:
+Before running the app, make sure you have the following:
 
-Python 3.7+ installed.
+Python 3.x
 
-A free API key from AviationStack.
+Flask
+
+Requests library
+
+API keys for:
+
+AviationStack for flight data.
+
+OpenCage for geocoding city coordinates.
 
 
-Installation Steps
+
+Setup
 
 1. Clone the repository:
 
+To clone this repository, run the following command in your terminal:
+
 git clone https://github.com/EliezerSunny/flight-tracker.git
-cd flight-tracker-api
+
+Replace your-username with your GitHub username.
+
+2. Install required dependencies:
+
+Navigate into the project directory:
+
+cd flight-tracker
+
+Install the required dependencies using pip:
+
+pip install flask requests
+
+3. Set up API keys:
+
+Replace your_api_key with your actual API key from AviationStack in the code.
+
+Replace your_api_key with your actual API key from OpenCage in the code.
 
 
-2. Create a virtual environment:
+API_KEY = "your_api_key"  # Replace with your actual AviationStack API key
+OPENCAGE_API_KEY = "your_api_key"  # Replace with your OpenCage API key
 
-python3 -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-
-3. Install dependencies:
-
-pip install -r requirements.txt
-
-
-4. Set up your AviationStack API key:
-
-Create a .env file in the root directory of the project.
-
-Add your API key like this:
-
-AVIATIONSTACK_API_KEY=your_api_key_here
-
-
-
-5. Run the application:
+4. Run the Flask application:
 
 python app.py
 
-Your API will be available at http://localhost:5000.
+The app will run locally at http://127.0.0.1:5000/.
+
+5. Use the application:
+
+Open your browser and visit the app's homepage.
+
+Enter a flight number in the provided input field and submit the form to fetch the flight status and airport coordinates.
+
+
+Application Workflow:
+
+1. The user visits the homepage and enters a flight number.
+
+
+2. The application sends a request to the AviationStack API to fetch flight data.
+
+
+3. If the flight data is found, the app retrieves departure and arrival cities, their coordinates using the OpenCage API, and the flight's status.
+
+
+4. The flight information is then displayed on the webpage.
 
 
 
+Example Flight Data Display:
 
----
+Flight number
 
-API Endpoints
+Departure city with coordinates
 
-1. Get all flights
+Arrival city with coordinates
 
-URL: /flights
-
-Method: GET
-
-Query Parameters:
-
-departure: (Optional) Filter by departure airport code (e.g., JFK).
-
-arrival: (Optional) Filter by arrival airport code (e.g., LAX).
+Flight status
 
 
-Response:
+Error Handling:
 
-[
-  {
-    "flight_number": "AA123",
-    "airline": "American Airlines",
-    "departure": "JFK",
-    "arrival": "LAX",
-    "status": "On Time"
-  },
-  {
-    "flight_number": "DL456",
-    "airline": "Delta Airlines",
-    "departure": "ATL",
-    "arrival": "ORD",
-    "status": "Delayed"
-  }
-]
+If the API request fails or no data is found, the user is informed with an error message.
 
+In case of any exceptions, a generic error message is shown.
 
-2. Get flight by number
-
-URL: /flights/{flight_number}
-
-Method: GET
-
-URL Parameters:
-
-flight_number: The flight number (e.g., AA123).
-
-
-Response:
-
-{
-  "flight_number": "AA123",
-  "airline": "American Airlines",
-  "departure": "JFK",
-  "arrival": "LAX",
-  "status": "On Time"
-}
-
-
-
----
-
-Error Handling
-
-The API returns standard HTTP status codes to indicate success or failure:
-
-200 OK: Successfully processed the request.
-
-400 Bad Request: Invalid or missing parameters.
-
-404 Not Found: No flights found for the given criteria.
-
-500 Internal Server Error: If there's an issue with the external API or server.
-
-
-
----
-
-Testing the API
-
-To test the API endpoints, you can use tools like Postman or cURL. For example, to get all flights:
-
-curl http://localhost:5000/flights?departure=JFK&arrival=LAX
-
-
----
-
-Future Improvements
-
-Add authentication: Implement token-based authentication to protect sensitive endpoints.
-
-Store flight data: Integrate a database to persist flight data and reduce dependency on external APIs.
-
-Real-time updates: Implement a WebSocket-based solution for pushing real-time flight updates.
-
-Advanced filters: Allow filtering by more criteria (e.g., flight status, airline).
-
-
-
----
 
 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-
----
-
-Contact
-
-For any questions, feel free to reach out at @eliezersunny.
+This project is open source and available under the MIT License. See the LICENSE file for details.
 
